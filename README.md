@@ -21,123 +21,81 @@
 '********华丽的风格线，下面是内容展示出了我牛逼的文采和文档词法高亮技巧，支持超链接，关键词变色，标签插入，这篇文档纯README.md编写，可以解析出html代码，也可以像文员一样手搓文字*********'
 
 
+## 写在前面
+此组件仅提供一个创建TreeTable的解决方案
 
+## prop说明
+### data
+  **必填**
 
-同时配套一个系列的教程文章，如何从零构建后一个完整的后台项目，建议大家先看完这些文章再来实践本项目
- - [手摸手，带你用 vue 撸后台 系列一(基础篇)](https://juejin.im/post/59097cd7a22b9d0065fb61d2)
- - [手摸手，带你用 vue 撸后台 系列二(登录权限篇)](https://juejin.im/post/591aa14f570c35006961acac)
- - [手摸手，带你用 vue 撸后台 系列三 (实战篇)](https://juejin.im/post/593121aa0ce4630057f70d35)
- - [手摸手，带你用 vue 撸后台 系列四(vueAdmin 一个极简的后台基础模板)](https://juejin.im/post/595b4d776fb9a06bbe7dba56)
- - [手摸手，带你封装一个 vue component](https://segmentfault.com/a/1190000009090836)
- - [手摸手，带你优雅的使用 icon](https://juejin.im/post/59bb864b5188257e7a427c09)
+  原始数据,要求是一个数组或者对象
+  ```javascript
+    [{
+      key1: value1,
+      key2: value2,
+      children: [{
+        key1: value1
+      },
+      {
+        key1: value1
+      }]
+    },
+    {
+      key1: value1
+    }]
+  ```
+  或者
+ ```javascript
+    {
+      key1: value1,
+      key2: value2,
+      children: [{
+        key1: value1
+      },
+      {
+        key1: value1
+      }]
+    }
+  ```
 
- 响应需求，开了一个qq群 `591724180` 方便大家交流
+### columns
+  列属性,要求是一个数组
 
- 或者加入该群主 **[圈子](https://jianshiapp.com/circles/1209)** 楼主会经常分享一些技术相关的东西
+  1. text: 显示在表头
+  2. value: 对应data的key，treeTable将显示相应的value
+  3. width: 每列的宽度，为一个数字
+  如果你想要每个字段都有自定义的样式或者嵌套其他组件，columns可不提供，直接像在el-table一样写即可，如果没有自定义内容，提供columns将更加的便捷方便
+  ```javascript
+  [{
+    value:string,
+    text:string,
+    width:number
+  },{
+    value:string,
+    text:string,
+    width:number
+  }]
+  ```
 
- **如有问题请先看上述使用文档和文章，若不能满足，欢迎 issue 和 pr**
+### expandAll
+  是否默认全部展开，boolean值，默认为false
 
- **本项目并不是一个脚手架，更倾向于是一个集成解决方案**
+### evalFunc
+  解析函数，function，非必须
 
- **该项目不支持低版本浏览器(如ie)，有需求请自行添加polyfill [详情](https://github.com/PanJiaChen/vue-element-admin/wiki#babel-polyfill)**
+  如果不提供，将使用默认的evalFunc
 
- <p align="center">
-  <img width="900" src="https://wpimg.wallstcn.com/a5894c1b-f6af-456e-82df-1151da0839bf.png">
-</p>
+  如果提供了evalFunc,那么会用提供的evalFunc去解析data，并返回treeTable渲染所需要的值。如何编写一个evalFunc，请参考此目录下的*eval.js*
 
-## 功能
-```
-- 登录/注销
-- 权限验证
-- 多环境发布
-- 动态侧边栏（支持多级路由）
-- 动态面包屑
-- 国际化多语言
-- 多种动态换肤
-- 快捷导航(标签页)
-- 富文本编辑器
-- Markdown编辑器
-- JSON编辑器
-- Screenfull全屏
-- 列表拖拽
-- Svg Sprite 图标
-- Dashboard
-- 本地mock数据
-- Echarts 图表
-- Clipboard(剪贴复制)
-- 401/404错误页面
-- 错误日志
-- 导出excel
-- 导出zip
-- 前端可视化excel
-- 树形table
-- Table example
-- 动态table example
-- 拖拽table example
-- 内联编辑table example
-- Form example
-- 二步登录
-- SplitPane
-- Dropzone
-- Sticky
-- CountTo
-- Markdown2html
-```
+### evalArgs
+  解析函数的参数，是一个数组
 
-## 开发
-```bash
-# 克隆项目
-git clone https://github.com/PanJiaChen/vue-element-admin.git
+  **请注意，自定义的解析函数参数第一个为this.data，你不需要在evalArgs填写。**
 
-# 安装依赖
-npm install
-   
-# 建议不要用cnpm安装 会有各种诡异的bug 可以通过如下操作解决 npm 下载速度慢的问题
-npm install --registry=https://registry.npm.taobao.org
+  如你的解析函数需要的参数为`(this.data,1,2,3,4)`，那么你只需要将`[1,2,3,4]`赋值给`evalArgs`就可以了
 
-# 启动服务
-npm run dev
-```
-浏览器访问 http://localhost:9527
+ ## slot
+ 请参考`customTreeTable`
 
-## 发布
-```bash
-# 构建测试环境
-npm run build:sit
-
-# 构建生成环境
-npm run build:prod
-```
-
-## 其它
-```bash
-# --report to build with bundle size analytics
-npm run build:prod --report
-
-# --preview to start a server in local to preview
-npm run build:prod --preview
-
-# lint code
-npm run lint
-
-# auto fix
-npm run lint -- --fix
-```
-
-更多信息请参考 [使用文档](https://panjiachen.github.io/vue-element-admin-site/#/deploy)
-
-## Changelog
-Detailed changes for each release are documented in the [release notes](https://github.com/PanJiaChen/vue-element-admin/releases).
-
-## Online Demo
-[在线 Demo](http://panjiachen.github.io/vue-element-admin)
-
-## Donate
-如果你觉得这个项目帮助到了你，你可以帮作者买一杯果汁表示鼓励 :tropical_drink:
-![donate](https://panjiachen.github.io/donate/donation.png)
-
-[Paypal Me](https://www.paypal.me/panfree23)
-
-## License
-
-
+ ## 其他
+  如果有其他的需求，请参考[el-table](http://element-cn.eleme.io/#/en-US/component/table)的api自行修改index.vue
