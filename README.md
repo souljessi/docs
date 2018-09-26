@@ -3,11 +3,7 @@
 
 
 
-- [理由1]码畜
 
-- [理由2]星际一辈子到不了宗师
-
-- [理由3]居然是一个处男
 
 
 
@@ -90,5 +86,3 @@
  ## slot
  请参考`customTreeTable`
 
- ## 其他
-  如果有其他的需求，请参考[el-table](http://element-cn.eleme.io/#/en-US/component/table)的api自行修改index.vue
